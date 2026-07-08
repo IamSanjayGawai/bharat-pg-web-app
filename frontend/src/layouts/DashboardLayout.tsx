@@ -31,7 +31,7 @@ const DashboardLayout: React.FC = () => {
   ];
 
   return (
-    <div className="h-[100dvh] w-full bg-neutral-900 sm:p-4 flex items-center justify-center overflow-hidden">
+    <div className="h-screen min-h-[100dvh] w-full bg-neutral-900 sm:p-4 flex items-center justify-center overflow-hidden">
       {/* Mobile App Container */}
       <div className="w-full h-full sm:h-[844px] max-w-md bg-neutral-50 relative sm:rounded-[2.5rem] sm:shadow-2xl overflow-hidden flex flex-col sm:border-[8px] sm:border-neutral-800">
         
