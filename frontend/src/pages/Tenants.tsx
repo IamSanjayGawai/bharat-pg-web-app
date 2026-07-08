@@ -281,7 +281,7 @@ const Tenants: React.FC = () => {
 
   return (
     <div className="p-4 space-y-4">
-      <div className="flex flex-col gap-3 pb-4 border-b border-neutral-200">
+      <div className="flex flex-col gap-3 pb-4 border-b border-neutral-200 sticky top-0 bg-neutral-50 z-10 -mx-4 px-4 pt-4 -mt-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-bold text-neutral-900">Tenants</h2>
@@ -475,7 +475,7 @@ const Tenants: React.FC = () => {
 
       <button
         onClick={openAddModal}
-        className="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition-transform active:scale-95 z-30 sm:absolute sm:bottom-20 sm:right-6"
+        className="absolute bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition-transform active:scale-95 z-30"
       >
         <Plus className="h-6 w-6" />
       </button>

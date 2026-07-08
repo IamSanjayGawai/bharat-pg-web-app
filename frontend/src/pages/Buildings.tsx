@@ -154,7 +154,7 @@ const Buildings: React.FC = () => {
       {/* Floating Action Button */}
       <button
         onClick={openAddModal}
-        className="fixed bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition-transform active:scale-95 z-30 sm:absolute sm:bottom-20 sm:right-6"
+        className="absolute bottom-20 right-6 h-14 w-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition-transform active:scale-95 z-30"
       >
         <Plus className="h-6 w-6" />
       </button>

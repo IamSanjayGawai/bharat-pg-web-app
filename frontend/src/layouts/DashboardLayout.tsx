@@ -31,12 +31,12 @@ const DashboardLayout: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-900 sm:p-4 flex items-center justify-center">
+    <div className="h-[100dvh] w-full bg-neutral-900 sm:p-4 flex items-center justify-center overflow-hidden">
       {/* Mobile App Container */}
       <div className="w-full h-full sm:h-[844px] max-w-md bg-neutral-50 relative sm:rounded-[2.5rem] sm:shadow-2xl overflow-hidden flex flex-col sm:border-[8px] sm:border-neutral-800">
         
         {/* Top Header */}
-        <header className="h-16 bg-white border-b border-neutral-200 flex items-center justify-between px-4 shrink-0 sticky top-0 z-20">
+        <header className="h-16 bg-white border-b border-neutral-200 flex items-center justify-between px-4 shrink-0 z-20">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-black flex items-center justify-center overflow-hidden border border-neutral-200">
               <img src="/logo.png" alt="Slienode" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling?.classList.remove('hidden'); }} />

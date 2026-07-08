@@ -15,6 +15,9 @@ export default defineConfig({
         name: 'Slienode | PG Management',
         short_name: 'Slienode',
         theme_color: '#ffffff',
+        background_color: '#ffffff',
+        display: 'standalone',
+        start_url: '/',
         icons: [
           {
             src: '/logo.png',

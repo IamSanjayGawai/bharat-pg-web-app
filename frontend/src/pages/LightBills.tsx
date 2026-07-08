@@ -300,8 +300,9 @@ const LightBills: React.FC = () => {
   };
 
   return (
-    <div className="p-4 space-y-6 max-w-5xl mx-auto pb-24">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-200 pb-4">
+    <div className="p-4 max-w-5xl mx-auto pb-24 relative">
+      <div className="sticky top-0 bg-neutral-50 z-10 -mx-4 px-4 pt-4 -mt-4 shadow-sm pb-4 space-y-6 border-b border-neutral-200">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center shrink-0">
             <Zap className="h-5 w-5" />
@@ -370,6 +371,7 @@ const LightBills: React.FC = () => {
             {[2023, 2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
           </select>
         </div>
+      </div>
       </div>
 
       {isLoading ? (
