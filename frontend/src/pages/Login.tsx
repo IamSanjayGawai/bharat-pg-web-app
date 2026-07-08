@@ -35,13 +35,19 @@ const Login: React.FC = () => {
     <div className="min-h-screen bg-neutral-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <div className="bg-primary/10 p-3 rounded-2xl">
-            <Building2 className="h-10 w-10 text-primary" />
+          <div className="h-20 w-20 rounded-3xl bg-black flex items-center justify-center overflow-hidden border border-neutral-200 shadow-xl">
+            <img src="/logo.png" alt="Slienode" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling?.classList.remove('hidden'); }} />
+            <span className="hidden text-white font-black text-3xl">S</span>
           </div>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-neutral-900">
-          Admin Login
-        </h2>
+        <div className="mt-6 text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-neutral-900">
+            Admin Login
+          </h2>
+          <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mt-2 flex items-center justify-center gap-1.5">
+            Powered by <span className="text-neutral-800 tracking-tight">Slienode</span>
+          </p>
+        </div>
         <p className="mt-2 text-center text-sm text-neutral-600">
           Or{' '}
           <Link to="/register" className="font-medium text-primary hover:text-primary/80 transition-colors">

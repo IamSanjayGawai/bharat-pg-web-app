@@ -40,14 +40,15 @@ const DashboardLayout: React.FC = () => {
         {/* Top Header */}
         <header className="h-16 bg-white border-b border-neutral-200 flex items-center justify-between px-4 shrink-0 sticky top-0 z-20">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-              {user?.pgName?.charAt(0).toUpperCase() || 'B'}
+            <div className="h-8 w-8 rounded-lg bg-black flex items-center justify-center overflow-hidden border border-neutral-200">
+              <img src="/logo.png" alt="Slienode" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling?.classList.remove('hidden'); }} />
+              <span className="hidden text-white font-black text-xs">S</span>
             </div>
-            <div>
-              <h1 className="text-sm font-bold text-neutral-900 leading-tight truncate max-w-[120px]">
-                {user?.pgName || 'BharatPG'}
+            <div className="flex flex-col justify-center">
+              <p className="text-[9px] font-bold text-neutral-500 uppercase tracking-widest leading-none mb-0.5">Powered By</p>
+              <h1 className="text-sm font-black text-neutral-900 leading-none tracking-tight">
+                Slienode
               </h1>
-              <p className="text-[10px] text-neutral-500 capitalize">{user?.role}</p>
             </div>
           </div>
           
@@ -68,6 +69,16 @@ const DashboardLayout: React.FC = () => {
         {/* Scrollable Page Content */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden bg-neutral-50 pb-20 scroll-smooth">
           <Outlet />
+          
+          <div className="flex flex-col items-center justify-center mt-8 pb-12 opacity-60">
+            <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Powered by</p>
+            <div className="flex items-center gap-1.5 mt-1">
+              <div className="h-4 w-4 bg-primary rounded-[4px] flex items-center justify-center">
+                <span className="text-[8px] font-black text-white">S</span>
+              </div>
+              <span className="text-sm font-black text-neutral-800 tracking-tight">Slienode</span>
+            </div>
+          </div>
         </main>
 
         {/* Fixed Bottom Navigation */}

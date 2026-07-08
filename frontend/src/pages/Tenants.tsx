@@ -283,7 +283,12 @@ const Tenants: React.FC = () => {
     <div className="p-4 space-y-4">
       <div className="flex flex-col gap-3 pb-4 border-b border-neutral-200">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-neutral-900">Tenants</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold text-neutral-900">Tenants</h2>
+            <span className="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">
+              {filteredTenants.length}
+            </span>
+          </div>
           <div className="flex items-center gap-2">
             <button onClick={downloadCSV} className="text-xs font-bold bg-neutral-100 text-neutral-700 px-3 py-1.5 rounded-lg hover:bg-neutral-200 flex items-center gap-1.5 shadow-sm transition-colors">
               <Download className="h-3.5 w-3.5" /> CSV

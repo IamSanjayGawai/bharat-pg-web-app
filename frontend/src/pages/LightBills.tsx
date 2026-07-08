@@ -182,8 +182,15 @@ const LightBills: React.FC = () => {
     const headers = ['Room Number', 'Room Type', 'Tenant Name', 'Active Days', 'Split Amount', 'Status', 'Total Room Bill'];
     const rows: string[][] = [];
     
+    let totalBilled = 0;
+    let totalCollected = 0;
+    
     data.forEach((bill: any) => {
+      totalBilled += bill.totalAmount;
       bill.tenantSplits.forEach((split: any) => {
+        if (split.status === 'Paid') {
+          totalCollected += split.splitAmount;
+        }
         rows.push([
           bill.roomId?.roomNumber || 'N/A',
           bill.roomId?.type || 'N/A',
@@ -195,6 +202,10 @@ const LightBills: React.FC = () => {
         ]);
       });
     });
+    
+    rows.push([]);
+    rows.push(['', '', '', '', 'Total Billed:', totalBilled.toString(), '']);
+    rows.push(['', '', '', '', 'Total Collected:', totalCollected.toString(), '']);
     
     const csvContent = "data:text/csv;charset=utf-8," 
       + headers.join(',') + '\n' 
@@ -217,8 +228,15 @@ const LightBills: React.FC = () => {
     const headers = [['Room Number', 'Tenant Name', 'Active Days', 'Split Amount', 'Status', 'Total Bill']];
     const rows: string[][] = [];
     
+    let totalBilled = 0;
+    let totalCollected = 0;
+    
     data.forEach((bill: any) => {
+      totalBilled += bill.totalAmount;
       bill.tenantSplits.forEach((split: any) => {
+        if (split.status === 'Paid') {
+          totalCollected += split.splitAmount;
+        }
         rows.push([
           bill.roomId?.roomNumber || 'N/A',
           split.tenantId?.fullName || 'Unknown',
@@ -229,6 +247,9 @@ const LightBills: React.FC = () => {
         ]);
       });
     });
+    
+    rows.push(['', '', '', '', 'Total Billed:', `Rs. ${totalBilled}`]);
+    rows.push(['', '', '', '', 'Total Collected:', `Rs. ${totalCollected}`]);
     
     autoTable(doc, {
       head: headers,

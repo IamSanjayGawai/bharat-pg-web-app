@@ -57,13 +57,9 @@ const Dashboard: React.FC = () => {
           return d.getMonth() + 1 === currentMonth && d.getFullYear() === currentYear;
         });
 
-        let totalLightBillCollected = 0;
+        let totalLightBillGenerated = 0;
         currentMonthLightBills.forEach((bill: any) => {
-          bill.tenantSplits.forEach((split: any) => {
-            if (split.status === 'Paid') {
-              totalLightBillCollected += split.splitAmount;
-            }
-          });
+          totalLightBillGenerated += bill.totalAmount;
         });
 
         const totalBeds = beds.length;
@@ -80,7 +76,7 @@ const Dashboard: React.FC = () => {
           noticePeriod: noticePeriod.length,
           checkoutsThisMonth: checkoutsThisMonth.length,
           monthlyRevenue: revenue,
-          monthlyLightBill: totalLightBillCollected
+          monthlyLightBill: totalLightBillGenerated
         });
       } catch (error) {
         console.error(error);
