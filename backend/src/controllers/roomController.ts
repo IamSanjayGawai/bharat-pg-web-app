@@ -15,12 +15,13 @@ export const getRooms = async (req: Request, res: Response): Promise<void> => {
 
     const roomsWithBeds = rooms.map(room => {
       const roomBeds = beds.filter(b => b.roomId.toString() === room._id.toString());
+      const availableBeds = roomBeds.filter(b => b.status === 'Available').length;
       const occupiedBeds = roomBeds.filter(b => b.status === 'Occupied').length;
       return {
         ...room,
-        totalBeds: room.totalBeds,
-        availableBeds: room.totalBeds - occupiedBeds,
-        occupiedBeds: occupiedBeds,
+        totalBeds: roomBeds.length > 0 ? roomBeds.length : room.totalBeds,
+        availableBeds: roomBeds.length > 0 ? availableBeds : room.totalBeds,
+        occupiedBeds: roomBeds.length > 0 ? occupiedBeds : 0,
       };
     });
 
@@ -39,12 +40,13 @@ export const getRoomsByFloor = async (req: Request, res: Response): Promise<void
 
     const roomsWithBeds = rooms.map(room => {
       const roomBeds = beds.filter(b => b.roomId.toString() === room._id.toString());
+      const availableBeds = roomBeds.filter(b => b.status === 'Available').length;
       const occupiedBeds = roomBeds.filter(b => b.status === 'Occupied').length;
       return {
         ...room,
-        totalBeds: room.totalBeds,
-        availableBeds: room.totalBeds - occupiedBeds,
-        occupiedBeds: occupiedBeds,
+        totalBeds: roomBeds.length > 0 ? roomBeds.length : room.totalBeds,
+        availableBeds: roomBeds.length > 0 ? availableBeds : room.totalBeds,
+        occupiedBeds: roomBeds.length > 0 ? occupiedBeds : 0,
       };
     });
 
