@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { 
   Building2, 
   LayoutDashboard, 
@@ -11,13 +11,11 @@ import {
   Zap
 } from 'lucide-react';
 import { logout } from '../store/slices/authSlice';
-import { type RootState } from '../store/store';
 
 const DashboardLayout: React.FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.auth.user);
 
   const handleLogout = () => {
     dispatch(logout());
