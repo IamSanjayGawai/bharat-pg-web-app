@@ -62,7 +62,7 @@ const Dashboard: React.FC = () => {
           totalLightBillGenerated += bill.totalAmount;
         });
 
-        const totalBeds = beds.length;
+        const totalBeds = rooms.reduce((sum: number, r: any) => sum + (r.totalBeds || 0), 0);
         const occupiedBeds = activeTenants.length;
         const availableBeds = totalBeds - occupiedBeds;
         const revenue = currentMonthRent.reduce((acc: number, r: any) => acc + r.amount, 0);

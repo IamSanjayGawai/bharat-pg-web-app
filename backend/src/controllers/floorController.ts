@@ -52,8 +52,13 @@ export const deleteFloor = async (req: Request, res: Response): Promise<void> =>
     const floor = await Floor.findById(req.params.id);
 
     if (floor) {
+      const rooms = await Room.find({ floorId: req.params.id });
+      const roomIds = rooms.map(r => r._id);
+      
       await floor.deleteOne();
       await Room.deleteMany({ floorId: req.params.id });
+      await Bed.deleteMany({ roomId: { $in: roomIds } });
+      
       res.json({ message: 'Floor removed' });
     } else {
       res.status(404).json({ message: 'Floor not found' });
