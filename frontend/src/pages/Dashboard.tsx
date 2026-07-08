@@ -88,35 +88,36 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-3 sm:p-5 space-y-4 sm:space-y-6 bg-neutral-50/50 min-h-full">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-xl sm:text-2xl font-extrabold text-neutral-900 tracking-tight">Overview</h2>
-        <p className="text-xs sm:text-sm font-medium text-neutral-500">Here's what's happening in your properties today.</p>
+    <div className="p-3 space-y-3 bg-neutral-50/50 h-full flex flex-col overflow-hidden">
+      <div className="flex flex-col shrink-0">
+        <h2 className="text-xl font-extrabold text-neutral-900 tracking-tight">Overview</h2>
+        <p className="text-xs font-medium text-neutral-500">Here's what's happening today.</p>
       </div>
 
       {isLoading ? (
         <div className="flex justify-center py-20"><Loader2 className="h-10 w-10 animate-spin text-primary" /></div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 flex-1 min-h-0">
           {/* Revenue Card (Hero) */}
-          <div className="col-span-2 md:col-span-4 bg-gradient-to-br from-neutral-900 to-neutral-800 p-3.5 sm:p-4 rounded-[1.25rem] shadow-xl relative overflow-hidden group">
-            <div className="absolute -right-6 -top-6 w-24 h-24 bg-white/5 rounded-full blur-2xl group-hover:bg-white/10 transition-colors duration-500"></div>
-            <div className="absolute -left-6 -bottom-6 w-20 h-20 bg-primary/20 rounded-full blur-xl group-hover:bg-primary/30 transition-colors duration-500"></div>
+          <div className="col-span-2 md:col-span-4 bg-gradient-to-br from-neutral-900 via-neutral-800 to-black p-3.5 rounded-2xl shadow-lg relative overflow-hidden group border border-white/10 flex flex-col justify-between h-full">
+            <div className="absolute -right-6 -top-6 w-24 h-24 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/30 transition-colors duration-500"></div>
+            <div className="absolute -left-6 -bottom-6 w-20 h-20 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors duration-500"></div>
             
             <div className="relative z-10 flex flex-col justify-between h-full">
-              <div className="flex items-center justify-between mb-3">
-                <div className="h-8 w-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10">
-                  <TrendingUp className="h-4 w-4 text-green-400" />
+              <div className="flex items-center justify-between mb-2">
+                <div className="h-8 w-8 rounded-lg bg-white/5 backdrop-blur-md flex items-center justify-center border border-white/10 shadow-inner">
+                  <TrendingUp className="h-4 w-4 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
                 </div>
-                <span className="text-[10px] sm:text-xs font-bold text-neutral-300 bg-white/10 px-2 py-1 rounded-full backdrop-blur-md border border-white/5">
+                <span className="text-[10px] font-bold text-neutral-300 bg-white/10 px-2 py-1 rounded-full backdrop-blur-md border border-white/5 shadow-sm">
                   This Month
                 </span>
               </div>
               <div className="flex justify-between items-end">
                 <div>
-                  <p className="text-xs font-medium text-neutral-400 mb-0.5">Monthly Rent</p>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                    ₹{stats.monthlyRevenue.toLocaleString('en-IN')}
+                  <p className="text-xs font-medium text-neutral-400 mb-1">Monthly Rent</p>
+                  <h3 className="text-3xl sm:text-4xl font-black text-white tracking-tight drop-shadow-sm">
+                    <span className="text-neutral-300 font-medium mr-1">₹</span>
+                    {stats.monthlyRevenue.toLocaleString('en-IN')}
                   </h3>
                 </div>
                 <div className="text-right">
@@ -124,103 +125,89 @@ const Dashboard: React.FC = () => {
                     <Zap className="h-3 w-3 text-amber-400" />
                     Light Bill
                   </p>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-amber-400 tracking-tight">
-                    + ₹{stats.monthlyLightBill.toLocaleString('en-IN')}
+                  <h3 className="text-lg font-bold text-amber-400 tracking-tight drop-shadow-sm">
+                    <span className="text-amber-400/50 font-medium mr-0.5">+₹</span>
+                    {stats.monthlyLightBill.toLocaleString('en-IN')}
                   </h3>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="col-span-2 md:col-span-2 bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-neutral-100/80 hover:shadow-md transition-shadow duration-300 group flex items-center gap-4">
-            <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-indigo-100 transition-all duration-300">
-              <Bed className="h-5 w-5 sm:h-6 sm:w-6" />
+          <div className="col-span-1 bg-gradient-to-br from-white to-neutral-50 p-2.5 rounded-xl shadow-sm border border-neutral-200/60 hover:shadow-md hover:border-blue-200/60 transition-all duration-300 group flex flex-col justify-between h-full">
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100/50 text-blue-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 shadow-inner border border-blue-100/50">
+              <Bed className="h-4 w-4" />
             </div>
-            <div>
-              <p className="text-[10px] sm:text-xs font-semibold text-neutral-500 uppercase tracking-tight mb-0.5">Total Beds</p>
-              <p className="text-xl sm:text-2xl font-bold text-neutral-800 leading-none">{stats.totalBeds}</p>
-            </div>
-          </div>
-
-          <div className="col-span-2 md:col-span-2 bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-neutral-100/80 hover:shadow-md transition-shadow duration-300 group flex items-center gap-4">
-            <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-purple-100 transition-all duration-300">
-              <BedDouble className="h-5 w-5 sm:h-6 sm:w-6" />
-            </div>
-            <div>
-              <p className="text-[10px] sm:text-xs font-semibold text-neutral-500 uppercase tracking-tight mb-0.5">Occupied</p>
-              <p className="text-xl sm:text-2xl font-bold text-neutral-800 leading-none">{stats.occupiedBeds}</p>
+            <div className="mt-2">
+              <p className="text-[10px] font-bold text-neutral-600 uppercase tracking-wider mb-0.5">Total Beds</p>
+              <p className="text-xl font-black text-neutral-900 leading-none">{stats.totalBeds}</p>
             </div>
           </div>
 
-          <div className="bg-white p-2.5 sm:p-3 rounded-2xl shadow-sm border border-neutral-100/80 hover:shadow-md transition-shadow duration-300 group flex flex-col justify-between">
-            <div className="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-blue-100 transition-all duration-300">
-              <Home className="h-4 w-4" />
+          <div className="col-span-1 bg-gradient-to-br from-white to-neutral-50 p-2.5 rounded-xl shadow-sm border border-neutral-200/60 hover:shadow-md hover:border-purple-200/60 transition-all duration-300 group flex flex-col justify-between h-full">
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100/50 text-purple-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 shadow-inner border border-purple-100/50">
+              <BedDouble className="h-4 w-4" />
             </div>
-            <div>
-              <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-tight mb-0.5 whitespace-nowrap">Total Rooms</p>
-              <p className="text-lg sm:text-xl font-bold text-neutral-800">{stats.totalRooms}</p>
-            </div>
-          </div>
-
-          <div className="bg-white p-2.5 sm:p-3 rounded-2xl shadow-sm border border-neutral-100/80 hover:shadow-md transition-shadow duration-300 group flex flex-col justify-between">
-            <div className="h-8 w-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-emerald-100 transition-all duration-300">
-              <CheckCircle className="h-4 w-4" />
-            </div>
-            <div>
-              <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-tight mb-0.5 whitespace-nowrap">Available</p>
-              <p className="text-lg sm:text-xl font-bold text-neutral-800">{stats.availableBeds}</p>
+            <div className="mt-2">
+              <p className="text-[10px] font-bold text-neutral-600 uppercase tracking-wider mb-0.5">Occupied</p>
+              <p className="text-xl font-black text-neutral-900 leading-none">{stats.occupiedBeds}</p>
             </div>
           </div>
 
-          <div className="bg-white p-2.5 sm:p-3 rounded-2xl shadow-sm border border-neutral-100/80 hover:shadow-md transition-shadow duration-300 group flex flex-col justify-between">
-            <div className="h-8 w-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-amber-100 transition-all duration-300">
-              <Users className="h-4 w-4" />
+          <div className="bg-gradient-to-br from-white to-neutral-50 p-2.5 rounded-xl shadow-sm border border-neutral-200/60 hover:shadow-md transition-all duration-300 group flex flex-col justify-between h-full">
+            <div className="h-7 w-7 rounded-lg bg-blue-50/80 text-blue-600 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300 shadow-sm border border-blue-100/50">
+              <Home className="h-3.5 w-3.5" />
             </div>
             <div>
-              <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-tight mb-0.5 whitespace-nowrap">Active</p>
-              <p className="text-lg sm:text-xl font-bold text-neutral-800">{stats.totalTenants}</p>
+              <p className="text-[10px] font-bold text-neutral-600 uppercase tracking-wider mb-0.5 whitespace-nowrap">Total Rooms</p>
+              <p className="text-lg font-black text-neutral-900">{stats.totalRooms}</p>
             </div>
           </div>
 
-          <div className="bg-white p-2.5 sm:p-3 rounded-2xl shadow-sm border border-neutral-100/80 hover:shadow-md transition-shadow duration-300 group flex flex-col justify-between">
-            <div className="h-8 w-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-orange-100 transition-all duration-300">
-              <CalendarClock className="h-4 w-4" />
+          <div className="bg-gradient-to-br from-white to-neutral-50 p-2.5 rounded-xl shadow-sm border border-neutral-200/60 hover:shadow-md transition-all duration-300 group flex flex-col justify-between h-full">
+            <div className="h-7 w-7 rounded-lg bg-emerald-50/80 text-emerald-600 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300 shadow-sm border border-emerald-100/50">
+              <CheckCircle className="h-3.5 w-3.5" />
             </div>
             <div>
-              <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-tight mb-0.5 whitespace-nowrap">On Notice</p>
-              <p className="text-lg sm:text-xl font-bold text-neutral-800">{stats.noticePeriod}</p>
+              <p className="text-[10px] font-bold text-neutral-600 uppercase tracking-wider mb-0.5 whitespace-nowrap">Available</p>
+              <p className="text-lg font-black text-neutral-900">{stats.availableBeds}</p>
             </div>
           </div>
 
-          <div className="bg-white p-2.5 sm:p-3 rounded-2xl shadow-sm border border-neutral-100/80 hover:shadow-md transition-shadow duration-300 group flex flex-col justify-between col-span-2 md:col-span-4 flex-row md:items-center">
+          <div className="bg-gradient-to-br from-white to-neutral-50 p-2.5 rounded-xl shadow-sm border border-neutral-200/60 hover:shadow-md transition-all duration-300 group flex flex-col justify-between h-full">
+            <div className="h-7 w-7 rounded-lg bg-amber-50/80 text-amber-600 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300 shadow-sm border border-amber-100/50">
+              <Users className="h-3.5 w-3.5" />
+            </div>
+            <div>
+              <p className="text-[10px] font-bold text-neutral-600 uppercase tracking-wider mb-0.5 whitespace-nowrap">Active</p>
+              <p className="text-lg font-black text-neutral-900">{stats.totalTenants}</p>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-white to-neutral-50 p-2.5 rounded-xl shadow-sm border border-neutral-200/60 hover:shadow-md transition-all duration-300 group flex flex-col justify-between h-full">
+            <div className="h-7 w-7 rounded-lg bg-orange-50/80 text-orange-600 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300 shadow-sm border border-orange-100/50">
+              <CalendarClock className="h-3.5 w-3.5" />
+            </div>
+            <div>
+              <p className="text-[10px] font-bold text-neutral-600 uppercase tracking-wider mb-0.5 whitespace-nowrap">On Notice</p>
+              <p className="text-lg font-black text-neutral-900">{stats.noticePeriod}</p>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-white to-neutral-50 p-3 rounded-xl shadow-sm border border-neutral-200/60 hover:shadow-md transition-all duration-300 group flex flex-col justify-center col-span-2 md:col-span-4 h-full">
             <div className="flex items-center gap-3 w-full">
-              <div className="h-8 w-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center group-hover:scale-110 group-hover:bg-red-100 transition-all duration-300">
+              <div className="h-8 w-8 rounded-lg bg-red-50/80 text-red-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-inner border border-red-100/50 shrink-0">
                 <LogOut className="h-4 w-4" />
               </div>
               <div className="flex items-center justify-between flex-1">
-                <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-tight whitespace-nowrap">Checkouts this month</p>
-                <p className="text-lg sm:text-xl font-bold text-neutral-800">{stats.checkoutsThisMonth}</p>
+                <p className="text-[10px] font-bold text-neutral-600 uppercase tracking-wider whitespace-nowrap">Checkouts this month</p>
+                <p className="text-xl font-black text-neutral-900">{stats.checkoutsThisMonth}</p>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      <div className="pt-2">
-        <h3 className="text-base font-extrabold text-neutral-900 mb-2 tracking-tight">Quick Actions</h3>
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 items-stretch">
-          <button onClick={() => navigate('/tenants')} className="relative overflow-hidden flex flex-col items-start justify-center gap-1.5 p-3.5 h-full w-full rounded-[1.25rem] bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 active:scale-[0.98] transition-all duration-300 group cursor-pointer">
-            <div className="absolute right-[-10%] top-[-10%] w-16 h-16 bg-white/20 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
-            <Users className="h-5 w-5 text-white/90 mb-0.5" />
-            <span className="text-xs sm:text-sm font-bold text-left">New Admission</span>
-          </button>
-          
-          <button onClick={() => navigate('/rent')} className="relative overflow-hidden flex flex-col items-start justify-center gap-1.5 p-3.5 h-full w-full rounded-[1.25rem] bg-white border border-neutral-200/80 shadow-sm hover:shadow-md hover:border-neutral-300 active:scale-[0.98] transition-all duration-300 group cursor-pointer">
-            <Wallet className="h-5 w-5 text-neutral-800 mb-0.5 group-hover:text-blue-600 transition-colors" />
-            <span className="text-xs sm:text-sm font-bold text-neutral-900 text-left">Collect Rent</span>
-          </button>
-        </div>
-      </div>
     </div>
   );
 };
