@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Floor from '../models/Floor';
 import Room from '../models/Room';
+import Bed from '../models/Bed';
 
 export const getFloors = async (req: Request, res: Response): Promise<void> => {
   try {
