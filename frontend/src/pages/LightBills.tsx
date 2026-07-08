@@ -333,44 +333,37 @@ const LightBills: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-2xl border border-neutral-200 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <label className="block text-xs font-bold text-neutral-700 uppercase tracking-wider mb-2">Building</label>
-          <select 
-            value={selectedBuilding?._id || ''} 
-            onChange={e => {
-              const b = buildings.find(x => x._id === e.target.value);
-              if(b) handleBuildingSelect(b);
-            }} 
-            className="w-full px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-500/20"
-          >
-            {buildings.map(b => (
-              <option key={b._id} value={b._id}>{b.name}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-xs font-bold text-neutral-700 uppercase tracking-wider mb-2">Month</label>
-          <select 
-            value={month} 
-            onChange={e => setMonth(Number(e.target.value))} 
-            className="w-full px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-500/20"
-          >
-            {[1,2,3,4,5,6,7,8,9,10,11,12].map(m => (
-              <option key={m} value={m}>{new Date(2000, m - 1, 1).toLocaleString('default', { month: 'long' })}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-xs font-bold text-neutral-700 uppercase tracking-wider mb-2">Year</label>
-          <select 
-            value={year} 
-            onChange={e => setYear(Number(e.target.value))} 
-            className="w-full px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-500/20"
-          >
-            {[2023, 2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
-          </select>
-        </div>
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 snap-x scrollbar-hide">
+        <select 
+          value={selectedBuilding?._id || ''} 
+          onChange={e => {
+            const b = buildings.find(x => x._id === e.target.value);
+            if(b) handleBuildingSelect(b);
+          }} 
+          className="shrink-0 px-3 py-1.5 bg-white border border-neutral-200 rounded-lg text-xs font-medium text-neutral-700 snap-start focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+        >
+          {buildings.map(b => (
+            <option key={b._id} value={b._id}>{b.name}</option>
+          ))}
+        </select>
+
+        <select 
+          value={month} 
+          onChange={e => setMonth(Number(e.target.value))} 
+          className="shrink-0 px-3 py-1.5 bg-white border border-neutral-200 rounded-lg text-xs font-medium text-neutral-700 snap-start focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+        >
+          {[1,2,3,4,5,6,7,8,9,10,11,12].map(m => (
+            <option key={m} value={m}>{new Date(2000, m - 1, 1).toLocaleString('default', { month: 'short' })}</option>
+          ))}
+        </select>
+
+        <select 
+          value={year} 
+          onChange={e => setYear(Number(e.target.value))} 
+          className="shrink-0 px-3 py-1.5 bg-white border border-neutral-200 rounded-lg text-xs font-medium text-neutral-700 snap-start focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+        >
+          {[2023, 2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
+        </select>
       </div>
       </div>
 
