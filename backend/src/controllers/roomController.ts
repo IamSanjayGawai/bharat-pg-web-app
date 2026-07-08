@@ -7,8 +7,24 @@ export const getRooms = async (req: Request, res: Response): Promise<void> => {
   try {
     const rooms = await Room.find({})
       .populate('floorId', 'floorNumber')
-      .populate('buildingId', 'name');
-    res.json(rooms);
+      .populate('buildingId', 'name')
+      .lean();
+
+    const roomIds = rooms.map(r => r._id);
+    const beds = await Bed.find({ roomId: { $in: roomIds } }).lean();
+
+    const roomsWithBeds = rooms.map(room => {
+      const roomBeds = beds.filter(b => b.roomId.toString() === room._id.toString());
+      const occupiedBeds = roomBeds.filter(b => b.status === 'Occupied').length;
+      return {
+        ...room,
+        totalBeds: room.totalBeds,
+        availableBeds: room.totalBeds - occupiedBeds,
+        occupiedBeds: occupiedBeds,
+      };
+    });
+
+    res.json(roomsWithBeds);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -16,8 +32,23 @@ export const getRooms = async (req: Request, res: Response): Promise<void> => {
 
 export const getRoomsByFloor = async (req: Request, res: Response): Promise<void> => {
   try {
-    const rooms = await Room.find({ floorId: req.params.floorId });
-    res.json(rooms);
+    const rooms = await Room.find({ floorId: req.params.floorId }).lean();
+    
+    const roomIds = rooms.map(r => r._id);
+    const beds = await Bed.find({ roomId: { $in: roomIds } }).lean();
+
+    const roomsWithBeds = rooms.map(room => {
+      const roomBeds = beds.filter(b => b.roomId.toString() === room._id.toString());
+      const occupiedBeds = roomBeds.filter(b => b.status === 'Occupied').length;
+      return {
+        ...room,
+        totalBeds: room.totalBeds,
+        availableBeds: room.totalBeds - occupiedBeds,
+        occupiedBeds: occupiedBeds,
+      };
+    });
+
+    res.json(roomsWithBeds);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

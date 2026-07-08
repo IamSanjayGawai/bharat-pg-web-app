@@ -40,6 +40,7 @@ const Rooms: React.FC = () => {
   const [roomBeds, setRoomBeds] = useState<any[]>([]);
   const [isRoomDetailsModalOpen, setIsRoomDetailsModalOpen] = useState(false);
   const [editingRoomId, setEditingRoomId] = useState<string | null>(null);
+  const [editingFloorId, setEditingFloorId] = useState<string | null>(null);
 
   // Form
   const [floorNumber, setFloorNumber] = useState('');
@@ -92,22 +93,53 @@ const Rooms: React.FC = () => {
     }
   }, [selectedBuilding]);
 
-  const handleAddFloor = async (e: React.FormEvent) => {
+  const handleSaveFloor = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await api.post('/floors', {
-        buildingId: selectedBuilding,
-        floorNumber: Number(floorNumber)
-      });
-      toast.success('Floor added');
+      if (editingFloorId) {
+        await api.put(`/floors/${editingFloorId}`, {
+          floorNumber: Number(floorNumber)
+        });
+        toast.success('Floor updated');
+      } else {
+        await api.post('/floors', {
+          buildingId: selectedBuilding,
+          floorNumber: Number(floorNumber)
+        });
+        toast.success('Floor added');
+      }
       setIsFloorModalOpen(false);
       setFloorNumber('');
+      setEditingFloorId(null);
       fetchFloorsAndRooms(selectedBuilding);
     } catch (error: any) {
-      toast.error('Failed to add floor');
+      toast.error('Failed to save floor');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const openEditFloorModal = (floor: Floor) => {
+    setEditingFloorId(floor._id);
+    setFloorNumber(floor.floorNumber.toString());
+    setIsFloorModalOpen(true);
+  };
+
+  const openAddFloorModal = () => {
+    setEditingFloorId(null);
+    setFloorNumber('');
+    setIsFloorModalOpen(true);
+  };
+
+  const handleDeleteFloor = async (floorId: string) => {
+    if (!window.confirm('Are you sure you want to delete this floor and all its rooms and beds?')) return;
+    try {
+      await api.delete(`/floors/${floorId}`);
+      toast.success('Floor deleted');
+      fetchFloorsAndRooms(selectedBuilding);
+    } catch (error: any) {
+      toast.error('Failed to delete floor');
     }
   };
 
@@ -237,6 +269,29 @@ const Rooms: React.FC = () => {
         </div>
       </div>
 
+      {!isLoading && floors.length > 0 && (
+        <div className="grid grid-cols-3 gap-2">
+          <div className="bg-blue-50 border border-blue-100 p-3 rounded-xl text-center shadow-sm">
+            <div className="text-xl font-black text-blue-700">
+              {floors.reduce((acc, f) => acc + (f.rooms?.length || 0), 0)}
+            </div>
+            <div className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">Rooms</div>
+          </div>
+          <div className="bg-primary/5 border border-primary/10 p-3 rounded-xl text-center shadow-sm">
+            <div className="text-xl font-black text-primary">
+              {floors.reduce((acc, f) => acc + (f.rooms || []).reduce((sum, r) => sum + r.totalBeds, 0), 0)}
+            </div>
+            <div className="text-[10px] font-bold text-primary uppercase tracking-wider">Total Beds</div>
+          </div>
+          <div className="bg-green-50 border border-green-100 p-3 rounded-xl text-center shadow-sm">
+            <div className="text-xl font-black text-green-700">
+              {floors.reduce((acc, f) => acc + (f.rooms || []).reduce((sum, r) => sum + (r.totalBeds - r.availableBeds), 0), 0)}
+            </div>
+            <div className="text-[10px] font-bold text-green-600 uppercase tracking-wider">Occupied</div>
+          </div>
+        </div>
+      )}
+
       {isLoading ? (
         <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
       ) : floors.length === 0 ? (
@@ -253,6 +308,12 @@ const Rooms: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <div className="h-6 w-1 bg-primary rounded-full"></div>
                   <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-wider">Floor {floor.floorNumber}</h3>
+                  <button onClick={() => openEditFloorModal(floor)} className="p-1 ml-2 text-neutral-400 hover:text-primary transition-colors">
+                    <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                  </button>
+                  <button onClick={() => handleDeleteFloor(floor._id)} className="p-1 text-neutral-400 hover:text-red-500 transition-colors">
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
                 </div>
                 <button
                   onClick={() => openAddRoomModal(floor._id)}
@@ -309,7 +370,7 @@ const Rooms: React.FC = () => {
       {/* FABs */}
       <div className="fixed bottom-20 right-4 flex flex-col gap-3 z-30 sm:absolute sm:bottom-20 sm:right-4">
         <button
-          onClick={() => setIsFloorModalOpen(true)}
+          onClick={openAddFloorModal}
           className="h-12 w-12 bg-neutral-900 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-neutral-800 transition-transform active:scale-95"
         >
           <Layers className="h-5 w-5" />
@@ -322,8 +383,8 @@ const Rooms: React.FC = () => {
           <div className="fixed inset-0 bg-neutral-900/40 backdrop-blur-sm" onClick={() => setIsFloorModalOpen(false)}></div>
           <div className="relative bg-white w-full sm:max-w-md rounded-t-[2rem] sm:rounded-2xl shadow-2xl animate-in slide-in-from-bottom-full duration-300 pb-safe">
             <div className="w-12 h-1.5 bg-neutral-200 rounded-full mx-auto mt-4 sm:hidden"></div>
-            <div className="px-6 py-4 border-b border-neutral-100"><h3 className="text-lg font-bold text-neutral-900">Add Floor</h3></div>
-            <form onSubmit={handleAddFloor} className="p-6 space-y-4 pb-12 sm:pb-6">
+            <div className="px-6 py-4 border-b border-neutral-100"><h3 className="text-lg font-bold text-neutral-900">{editingFloorId ? 'Edit' : 'Add'} Floor</h3></div>
+            <form onSubmit={handleSaveFloor} className="p-6 space-y-4 pb-12 sm:pb-6">
               <div>
                 <label className="block text-xs font-bold text-neutral-700 mb-1 uppercase tracking-wider">Floor Number</label>
                 <input type="number" required value={floorNumber} onChange={(e) => setFloorNumber(e.target.value)} className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl focus:ring-2 focus:ring-primary/20 text-sm" />
