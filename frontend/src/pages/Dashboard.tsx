@@ -20,9 +20,8 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const [roomsRes, bedsRes, tenantsRes, rentRes, lightBillsRes] = await Promise.all([
+        const [roomsRes, tenantsRes, rentRes, lightBillsRes] = await Promise.all([
           api.get('/rooms'),
-          api.get('/beds'),
           api.get('/tenants'),
           api.get('/rent'),
           api.get('/light-bills')
