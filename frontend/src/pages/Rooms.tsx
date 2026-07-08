@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Loader2, Layers, Trash2 } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Loader2, Layers, Trash2, ArrowLeft } from 'lucide-react';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 
@@ -28,8 +28,10 @@ interface Building {
 }
 
 const Rooms: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [buildings, setBuildings] = useState<Building[]>([]);
-  const [selectedBuilding, setSelectedBuilding] = useState<string>('');
+  const [selectedBuilding, setSelectedBuilding] = useState<string>(location.state?.selectedBuildingId || '');
   const [floors, setFloors] = useState<Floor[]>([]);
   
   const [isLoading, setIsLoading] = useState(true);
@@ -56,7 +58,15 @@ const Rooms: React.FC = () => {
       const res = await api.get('/buildings');
       setBuildings(res.data);
       if (res.data.length > 0) {
-        setSelectedBuilding(res.data[0]._id);
+        if (!location.state?.selectedBuildingId) {
+          setSelectedBuilding(res.data[0]._id);
+        } else {
+          // Verify the building from state actually exists in the response
+          const exists = res.data.some((b: Building) => b._id === location.state.selectedBuildingId);
+          if (!exists) {
+            setSelectedBuilding(res.data[0]._id);
+          }
+        }
       }
     } catch (error) {
       toast.error('Failed to load buildings');
@@ -247,10 +257,11 @@ const Rooms: React.FC = () => {
   return (
     <div className="p-4 space-y-4">
       <div className="flex flex-col gap-3 pb-2 border-b border-neutral-200">
-        <h2 className="text-xl font-bold text-neutral-900">Property</h2>
-        <div className="flex bg-neutral-100 p-1 rounded-xl">
-          <Link to="/buildings" className="flex-1 text-center py-2 text-sm font-bold text-neutral-500 hover:text-neutral-700">Buildings</Link>
-          <Link to="/rooms" className="flex-1 text-center py-2 text-sm font-bold bg-white rounded-lg shadow-sm text-neutral-900">Rooms & Floors</Link>
+        <div className="flex items-center gap-2">
+          <button onClick={() => navigate('/buildings')} className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-full transition-colors">
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <h2 className="text-xl font-bold text-neutral-900">Rooms & Floors</h2>
         </div>
 
         <div className="relative">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Building2, Plus, Loader2, MapPin, Layers, Edit2, Trash2 } from 'lucide-react';
 import api from '../services/api';
 import toast from 'react-hot-toast';
@@ -16,6 +16,7 @@ const Buildings: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
@@ -91,12 +92,7 @@ const Buildings: React.FC = () => {
   return (
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between pb-2 border-b border-neutral-200">
-        <h2 className="text-xl font-bold text-neutral-900">Property</h2>
-      </div>
-
-      <div className="flex bg-neutral-100 p-1 rounded-xl">
-        <Link to="/buildings" className="flex-1 text-center py-2 text-sm font-bold bg-white rounded-lg shadow-sm text-neutral-900">Buildings</Link>
-        <Link to="/rooms" className="flex-1 text-center py-2 text-sm font-bold text-neutral-500 hover:text-neutral-700">Rooms & Floors</Link>
+        <h2 className="text-xl font-bold text-neutral-900">Properties</h2>
       </div>
 
       {isLoading ? (
@@ -112,7 +108,11 @@ const Buildings: React.FC = () => {
       ) : (
         <div className="space-y-4">
           {buildings.map((building) => (
-            <div key={building._id} className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-4 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div 
+              key={building._id} 
+              onClick={() => navigate('/rooms', { state: { selectedBuildingId: building._id } })}
+              className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-4 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer hover:shadow-md transition-shadow group"
+            >
               <div className="flex gap-4">
                 <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                   <Building2 className="h-6 w-6 text-primary" />
@@ -134,13 +134,13 @@ const Buildings: React.FC = () => {
               
               <div className="flex items-center gap-2 self-end sm:self-center border-t border-neutral-100 pt-3 sm:border-0 sm:pt-0 w-full sm:w-auto justify-end">
                 <button 
-                  onClick={() => openEditModal(building)}
+                  onClick={(e) => { e.stopPropagation(); openEditModal(building); }}
                   className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-full transition-colors"
                 >
                   <Edit2 className="h-4 w-4" />
                 </button>
                 <button 
-                  onClick={() => handleDelete(building._id)}
+                  onClick={(e) => { e.stopPropagation(); handleDelete(building._id); }}
                   className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
                 >
                   <Trash2 className="h-4 w-4" />
