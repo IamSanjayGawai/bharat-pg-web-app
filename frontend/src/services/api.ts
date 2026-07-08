@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Backend URL
+  // Use VITE_API_URL if available, otherwise default to the production Render URL
+  baseURL: import.meta.env.VITE_API_URL || 'https://pg-h20i.onrender.com/api', 
 });
 
 // Request interceptor to add the token to headers

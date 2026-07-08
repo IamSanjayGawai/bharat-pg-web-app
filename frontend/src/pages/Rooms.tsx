@@ -417,7 +417,7 @@ const Rooms: React.FC = () => {
                 <div className="flex justify-center py-8"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>
               ) : (
                 <div className="space-y-3">
-                  {roomBeds.map((bed, index) => (
+                  {roomBeds.map((bed) => (
                     <div key={bed._id} className={`p-4 rounded-xl border ${bed.status === 'Occupied' ? 'bg-neutral-50 border-neutral-200' : 'bg-white border-green-200'}`}>
                       <div className="flex justify-between items-start mb-2">
                         <div>

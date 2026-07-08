@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Zap, Calculator, CheckCircle2, Loader2, Home, Download, FileText } from 'lucide-react';
+import { Zap, CheckCircle2, Loader2, Home, Download, FileText } from 'lucide-react';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 import jsPDF from 'jspdf';
