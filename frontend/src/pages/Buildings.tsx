@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Building2, Plus, Loader2, MapPin, Layers, Edit2, Trash2 } from 'lucide-react';
 import api from '../services/api';
 import toast from 'react-hot-toast';

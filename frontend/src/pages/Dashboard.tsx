@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import api from '../services/api';
-import { Loader2, TrendingUp, Users, Home, BedDouble, Wallet, Bed, LogOut, CalendarClock, CheckCircle, Zap } from 'lucide-react';
+import { Loader2, TrendingUp, Users, Home, BedDouble, Bed, LogOut, CalendarClock, CheckCircle, Zap } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
-  const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalRooms: 0,
     totalBeds: 0,
@@ -30,7 +29,6 @@ const Dashboard: React.FC = () => {
         ]);
         
         const rooms = roomsRes.data;
-        const beds = bedsRes.data;
         const allTenants = tenantsRes.data;
         
         const currentMonth = new Date().getMonth() + 1;
